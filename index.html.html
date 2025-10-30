@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krishna's Mehndi - Mehndi Artist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Base Variables and Theme Setup */
+        :root {
+            --light-bg: #f9f0e6;
+            --light-text: #333333;
+            --light-primary: #8B4513;
+            --light-accent: #f4a261; 
+            --dark-bg: #1e1e1e;
+            --dark-text: #f0f0f0;
+            --dark-primary: #d2b48c;
+            --dark-accent: #f4a261;
+            
+            --bg-color: var(--light-bg);
+            --text-color: var(--light-text);
+            --primary-color: var(--light-primary);
+            --accent-color: var(--light-accent);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: var(--dark-bg);
+            --text-color: var(--dark-text);
+            --primary-color: var(--dark-primary);
+            --accent-color: var(--dark-accent);
+        }
+
+        /* General Styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.5s, color 0.5s;
+            position: relative;
+            z-index: 1; 
+        }
+        
+        /* --- BACKGROUND IMPLEMENTATION (FULL PAGE, WIDER GAPS) --- */
+        body::before {
+            content: "";
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; 
+            pointer-events: none;
+            
+            background-image: 
+                url('https://i.postimg.cc/J4nDZ2gf/Picsart-25-10-30-23-53-42-293.png'), 
+                url('https://i.postimg.cc/J4nDZ2gf/Picsart-25-10-30-23-53-42-293.png');
+            
+            background-repeat: repeat;
+            
+            background-size: 600px 600px, 600px 600px;
+            
+            background-position: 0 0, 300px 300px; 
+
+            opacity: 0.1; 
+            
+            filter: sepia(100%) hue-rotate(-15deg) saturate(300%) brightness(0.9);
+        }
+
+        /* Dark mode tint */
+        [data-theme="dark"] body::before {
+            opacity: 0.1; 
+            filter: grayscale(100%) brightness(1.5) opacity(50%);
+        }
+        
+        /* --- CONTENT SECTION (SOLID BACKGROUND TO COVER PATTERN) --- */
+        #home-section, #artwork-section, #courses-section {
+            position: relative; 
+            padding: 40px 20px;
+            max-width: 800px; 
+            margin: 20px auto; 
+            border-radius: 10px;
+            
+            background-color: var(--bg-color); 
+            
+            z-index: 5; 
+            overflow: hidden; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] #home-section, 
+        [data-theme="dark"] #artwork-section,
+        [data-theme="dark"] #courses-section {
+            background-color: var(--dark-bg); 
+        }
+        /* --- END BACKGROUND & SECTION FIXES --- */
+
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        /* Header and Navigation */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: var(--bg-color); 
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.5s;
+        }
+        
+        /* FIX: Wrapper for icon and logo to ensure stable alignment and prevents wrapping */
+        .header-left { 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            /* Ensures this group takes minimum required space */
+            white-space: nowrap; 
+        }
+
+        .logo {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.8em;
+            color: var(--primary-color);
+            cursor: pointer;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            /* Prevents logo text from wrapping */
+            white-space: nowrap; 
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .primary-btn {
+            background-color: var(--primary-color);
+            color: var(--light-bg); 
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-weight: 600;
+            border-radius: 20px;
+            transition: background-color 0.3s, color 0.3s, transform 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .primary-btn:hover {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            transform: translateY(-2px);
+        }
+
+        /* Theme Toggle Styling */
+        .theme-toggle {
+            background: none;
+            cursor: pointer;
+            font-size: 1.5em;
+            
+            /* Border properties for visibility */
+            border: 2px solid var(--primary-color); /* Use primary color for border */
+            border-radius: 50%; /* Make it round */
+            padding: 5px 8px; /* Added padding to give it shape */
+            line-height: 1; /* Center the icon */
+            
+            color: var(--primary-color);
+            transition: transform 0.2s, border-color 0.3s, background-color 0.3s;
+        }
+        
+        /* Hover state for theme toggle */
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            background-color: rgba(139, 69, 19, 0.1); /* Slight background on hover */
+        }
+
+        [data-theme="dark"] .theme-toggle {
+            border: 2px solid var(--dark-primary); /* Dark mode border */
+            color: var(--dark-primary);
+        }
+        
+        /* Menu (Sidebar) */
+        .menu-icon {
+            font-size: 1.8em; 
+            cursor: pointer;
+            color: var(--primary-color);
+            display: inline-block;
+            line-height: 1; 
+        }
+        
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 200;
+            top: 0;
+            left: 0;
+            background-color: var(--bg-color);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+        }
+
+        .sidebar a {
+            padding: 15px 8px 15px 32px;
+            text-decoration: none;
+            font-size: 20px;
+            color: var(--text-color);
+            display: block;
+            transition: 0.3s;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(139, 69, 19, 0.1);
+        }
+
+        .sidebar a:hover {
+            color: var(--accent-color);
+            background-color: rgba(139, 69, 19, 0.05);
+        }
+
+        .sidebar .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+        }
+
+        /* Main Content Sections */
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            position: relative; 
+            z-index: 5;
+        }
+
+        h2, .services-label, .services-list, .artwork-home-btn-container, .artwork-grid {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Artist Details Styling - Increased Size and Weight */
+        .artist-details {
+            text-align: center;
+            font-size: 1.5em; 
+            font-weight: 600; 
+            color: var(--text-color);
+            margin-top: -20px; 
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        /* Services Label Styling */
+        .services-label {
+            text-align: left; 
+            font-size: 1.5em; 
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            margin-top: 20px;
+        }
+
+
+        h2 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5em;
+            text-align: center;
+            color: var(--accent-color);
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Services Section - Decreased Font Size */
+        .services-list {
+            list-style: none; 
+            padding-left: 0;
+            text-align: left; 
+            font-size: 1.1em; 
+            line-height: 1.8; 
+            margin-bottom: 30px; 
+            
+            margin-left: 0; 
+            margin-right: auto;
+            max-width: 450px; 
+        }
+
+        /* Services List Edits (Bullet points & Shorter line) */
+        .services-list li {
+            position: relative; /* Enable pseudo-elements */
+            padding-left: 20px; /* Space for the custom bullet point */
+            text-align: left; 
+            margin-bottom: 8px; 
+            font-weight: 400;
+            color: var(--text-color);
+            padding-bottom: 5px;
+        }
+
+        .services-list li::before {
+            content: '•'; /* Custom Bullet Point */
+            color: var(--accent-color);
+            font-size: 1.2em;
+            position: absolute;
+            left: 0;
+            top: 0;
+            line-height: 1.6;
+        }
+        
+        .services-list li::after {
+            content: "";
+            position: absolute;
+            bottom: 0; 
+            left: 0; 
+            width: 70%; /* Shorter line */
+            height: 1px;
+            border-bottom: 1px dotted var(--primary-color);
+        }
+        /* End Services List Edits */
+
+
+        .artwork-home-btn-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        /* Artwork back button container */
+        .back-btn-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        /* Artwork Section */
+        #artwork-section {
+            display: none;
+            min-height: 400px;
+        }
+
+        .artwork-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .artwork-item {
+            border: 3px solid var(--primary-color);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            position: relative; 
+            z-index: 2;
+            cursor: pointer; /* Added cursor pointer for modal functionality */
+        }
+
+        .artwork-item img {
+            width: 100%;
+            height: 350px; 
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .artwork-item img:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        /* --- New Courses Section Styling --- */
+
+        #courses-section {
+            display: none;
+        }
+
+        .course-card {
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        [data-theme="dark"] .course-card {
+            background-color: rgba(0, 0, 0, 0.15); 
+        }
+
+        .course-card h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8em;
+            color: var(--accent-color);
+            text-align: center;
+            margin-top: 0;
+            border-bottom: 1px dashed var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        .course-card p strong {
+            color: var(--primary-color);
+            font-size: 1.1em;
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+
+        .course-card ul {
+            list-style: none; 
+            padding-left: 20px;
+            font-size: 1em;
+            line-height: 1.6;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        
+        /* Specific list item styling for included materials/highlights */
+        .course-card ul.material-list li:before {
+            content: '✅ ';
+            margin-left: -20px;
+            margin-right: 10px;
+            font-weight: 700;
+        }
+        
+        .course-card ul.highlight-list li:before {
+            content: '🌿 ';
+            margin-left: -20px;
+            margin-right: 10px;
+            font-weight: 700;
+        }
+        
+        .course-card ul.figure-list li:before {
+            content: '👰 ';
+            margin-left: -20px;
+            margin-right: 10px;
+            font-weight: 700;
+        }
+
+
+        .course-enrollment-info {
+            text-align: center;
+            padding: 20px;
+            border: 1px dashed var(--accent-color);
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .new-highlights {
+            margin-top: 20px;
+            line-height: 1.8;
+            font-weight: 400;
+        }
+
+        .new-highlights strong {
+            color: var(--accent-color);
+            display: inline;
+        }
+        .cta-book {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-top: 15px;
+        }
+        .course-confidence {
+            font-weight: 500;
+            color: var(--text-color);
+            font-style: italic;
+        }
+        /* --- End Courses Section Styling --- */
+
+
+        /* --- Modal/Lightbox Styling for Artwork Viewer (Restored) --- */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top of everything */
+            padding-top: 60px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.85); /* Black w/ opacity background */
+            backdrop-filter: blur(10px); /* Add blur effect to background */
+            -webkit-backdrop-filter: blur(10px); /* Safari support */
+            transition: opacity 0.3s ease;
+        }
+
+        /* Modal Content (Image) */
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            max-height: 80vh; /* Max height to fit within viewport */
+            object-fit: contain; /* Ensure the image fits */
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Close Button */
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        /* --- End Modal/Lightbox Styling --- */
+
+
+        /* Footer and Social Links */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            background-color: var(--primary-color);
+            color: var(--light-bg); 
+            position: relative; 
+            z-index: 5; 
+        }
+        
+        /* Footer text styling */
+        .footer-text {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 15px; 
+        }
+
+        .social-links {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px; 
+        }
+
+        /* Button styles for social links */
+        .social-links a {
+            color: var(--light-bg);
+            font-size: 1.1em; 
+            transition: all 0.3s ease; 
+            display: flex; 
+            align-items: center;
+            gap: 8px; 
+            font-weight: 600; 
+            
+            border: 2px solid var(--light-bg); 
+            padding: 8px 15px; 
+            border-radius: 30px; 
+            background-color: transparent;
+        }
+
+        .social-links a i {
+            font-size: 1.4em; 
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color); 
+            background-color: var(--light-bg); 
+            border-color: var(--light-bg); 
+            transform: scale(1.05);
+        }
+        
+        /* --- MOBILE RESPONSIVENESS (Media Queries) --- */
+        @media (max-width: 600px) {
+            
+            /* 1. Header/Logo Fix: Reduce logo size and padding */
+            .logo {
+                font-size: 2.0em; 
+            }
+            
+            header {
+                padding: 10px 15px;
+            }
+
+            .theme-toggle {
+                font-size: 1.3em; 
+                padding: 4px 6px;
+            }
+
+            /* General Text Scaling */
+            #home-section, #artwork-section, #courses-section {
+                padding: 20px 15px; /* Adjust padding for better fit */
+                margin: 10px auto;
+            }
+            
+            .artist-details {
+                font-size: 1.2em;
+            }
+            
+            h2 {
+                font-size: 2.8em;
+            }
+            
+            /* 2. Footer Social Links Fix: Allow wrapping and reduce button size */
+            .social-links {
+                flex-wrap: wrap; 
+                justify-content: center;
+            }
+            
+            .social-links a {
+                font-size: 1.0em; 
+                padding: 6px 10px; 
+                gap: 5px; 
+                margin: 5px; /* Spacing between wrapped buttons */
+            }
+            
+            .social-links a i {
+                font-size: 1.2em; 
+            }
+            
+            /* Modal fix for mobile */
+            .modal-content {
+                width: 95%; 
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="javascript:void(0)" onclick="showSection('home-section')">Home</a>
+        <a href="javascript:void(0)" onclick="showSection('courses-section')">Courses</a> 
+    </div>
+
+    <header>
+        <div class="header-left">
+            <span class="menu-icon" onclick="openNav()">&#9776;</span>
+            <div class="logo" onclick="showSection('home-section')">Krishna's Mehndi</div>
+        </div>
+        <div class="nav-buttons">
+            <button class="theme-toggle" id="theme-toggle">
+                ☀️
+            </button>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <section id="home-section">
+            <h2>Krishna's Mehndi</h2>
+            
+            <p class="artist-details">
+                Krishna Parmar - Professional Mehndi Artist<br>
+                Location - Mulund, Mumbai
+            </p>
+
+            <p class="services-label">Services :</p>
+
+            <ul class="services-list">
+                <li>Floral Mehndi</li>
+                <li>Bridal Mehndi</li>
+                <li>Arabic Mehndi</li>
+                <li>Baby Shower Mehndi</li>
+                <li>Custom Designs & Themes</li>
+            </ul>
+
+            <div class="artwork-home-btn-container">
+                <button class="primary-btn" onclick="toggleArtworkSection()">View Our Artwork Gallery</button>
+            </div>
+        </section>
+        
+        <section id="courses-section" style="display: none;">
+            <div class="back-btn-container">
+                <button class="primary-btn" onclick="showSection('home-section')">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+            </div>
+            
+            <h2>🌿✨ Certified Mehndi Courses ✨🌿</h2>
+            
+            <div class="course-card basic-course">
+                <h3>🔸 BASIC MEHNDI COURSE – ₹7,500🔸</h3>
+                
+                <p><strong>📦 Practice Material Included:</strong></p>
+                <ul class="material-list">
+                    <li>Mehndi Powder</li>
+                    <li>Cello Tape Machine</li>
+                    <li>Cone Wrappers</li>
+                    <li>Henna Book</li>
+                    <li>Artificial Hand for Practice</li>
+                    <li>Piping Bags</li>
+                </ul>
+                
+                <p><strong>🎨 What You’ll Learn:</strong></p>
+                <ul class="material-list">
+                    <li>Arabic Designs</li>
+                    <li>Mandala Designs</li>
+                </ul>
+                
+                <p><strong>🌸 Course Highlights:</strong></p>
+                <ul class="highlight-list">
+                    <li>Mehndi powder knowledge</li>
+                    <li>Essential oil knowledge</li>
+                    <li>Plastic & material knowledge</li>
+                    <li>How to make henna paste</li>
+                    <li>How to make henna cones</li>
+                    <li>Lines, humps & strokes</li>
+                    <li>Borders & shapes</li>
+                    <li>Lotus & bunch variations</li>
+                    <li>Checks & leaf variations</li>
+                    <li>Peacock designs</li>
+                    <li>Arabic & Indian styles</li>
+                    <li>Tricks & techniques</li>
+                    <li>How to highlight designs</li>
+                    <li>Indo–Arabic & Indo–Western</li>
+                    <li>Mandalas & trending designs</li>
+                    <li>Hands-on practice</li>
+                </ul>
+                
+                <p class="course-confidence">💫 After completion, you’ll be confident to take Basic Sider & Basic Bridal Mehndi Orders!</p>
+            </div>
+            
+            <div class="course-card advance-course">
+                <h3>💎 ADVANCE MEHNDI COURSE – ₹13,500 💎</h3>
+
+                <p><strong>📦 Practice Material Included:</strong></p>
+                <ul class="material-list">
+                    <li>All materials from the Basic Course are included.</li>
+                </ul>
+
+                <p><strong>🌺 Floral Mehndi Section:</strong></p>
+                <ul class="highlight-list">
+                    <li>Flower types & leaf variations</li>
+                    <li>Floral bunch creations</li>
+                    <li>Bunch setting & placement</li>
+                    <li>Full-hand floral designs</li>
+                    <li>Indian + Floral fusion</li>
+                </ul>
+
+                <p><strong>👰 Figure Mehndi Section:</strong></p>
+                <ul class="figure-list">
+                    <li>Half-body side face (Bride & Groom)</li>
+                    <li>Full-body side face (Bride & Groom)</li>
+                    <li>Varmala figures (Bride & Groom)</li>
+                    <li>Sindoor figure</li>
+                    <li>Elephant, Doli, Fera & Kalash</li>
+                    <li>Dhol & festive motifs</li>
+                    <li>Half/Full body ¾ face (Bride & Groom)</li>
+                    <li>+2 Figures of Your Choice ✨</li>
+                </ul>
+                
+                <p><strong>💼 Guidance:</strong></p>
+                <ul class="material-list">
+                    <li>Includes Marketing Tips & Client Handling Guidance!</li>
+                </ul>
+            </div>
+            
+            <div class="course-enrollment-info">
+                <p><strong>💰 Advance Payment:</strong> ₹3,000 at the time of joining</p>
+                <p><strong>🎓 Certified Course:</strong> Certificate Provided</p>
+                
+                <p class="new-highlights">
+                    <strong>🌟 WHAT’S NEW? 🌟</strong><br>
+                    ✨ Real Model Practice<br>
+                    ✨ Students Get Live Order Experience<br>
+                    ✨ No Payment Issues<br>
+                    ✨ We Believe in “Let’s Glow & Grow Together” 🌸
+                </p>
+                <p class="cta-book">📩 DM to Book Your Seat Now!!</p>
+            </div>
+
+             <div class="back-btn-container">
+                <button class="primary-btn" onclick="showSection('home-section')">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+            </div>
+        </section>
+        
+        <section id="artwork-section" style="display: none;">
+            <div class="back-btn-container">
+                <button class="primary-btn" onclick="showSection('home-section')">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+            </div>
+
+            <h2>Our Artistry</h2>
+            <div class="artwork-grid">
+                <div class="artwork-item">
+                    <img src="https://i.postimg.cc/05Yt4ckR/8c6dbbbf-25bc-4b41-82ee-e6bfcc6b3bc7.jpg" alt="Bridal Art 1" onclick="openModal(this)">
+                </div>
+                <div class="artwork-item">
+                    <img src="https://i.postimg.cc/zGcphQjH/07629e72-7e2e-406b-949f-364981917b39.jpg" alt="Floral Art 2" onclick="openModal(this)">
+                </div>
+                <div class="artwork-item">
+                    <img src="https://i.postimg.cc/HW92zn2h/8662425e-ccd8-45ed-a68d-6ae56ac3ef7d.jpg" alt="Arabic Art 3" onclick="openModal(this)">
+                </div>
+                <div class="artwork-item">
+                    <img src="https://i.postimg.cc/rw3CsrVy/fb2827d9-66ca-42f4-a2ac-9b07f7fe2986.jpg" alt="Modern Art 4" onclick="openModal(this)">
+                </div>
+            </div>
+
+            <div class="back-btn-container">
+                <button class="primary-btn" onclick="showSection('home-section')">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+            </div>
+        </section>
+
+    </div>
+
+    <div id="imageModal" class="modal" onclick="closeModal()">
+        <span class="close" onclick="closeModal(event)">&times;</span>
+        <img class="modal-content" id="img01">
+    </div>
+    <footer>
+        <p class="footer-text">Connect With Us:</p>
+        <div class="social-links">
+            <a href="https://wa.me/919820823232" target="_blank" title="WhatsApp: 9820823232">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+            <a href="https://www.instagram.com/krishnasmehendi?igsh=dTluenBzYTJzMGhq" target="_blank" title="Instagram: @krishnasmehendi">
+                <i class="fab fa-instagram"></i> Instagram
+            </a>
+            <a href="https://www.youtube.com/@krishnasmehndi" target="_blank" title="YouTube: @krishnasmehndi">
+                <i class="fab fa-youtube"></i> YouTube
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        const sections = {
+            'home-section': document.getElementById('home-section'),
+            'artwork-section': document.getElementById('artwork-section'),
+            'courses-section': document.getElementById('courses-section')
+        };
+        let currentSectionId = 'home-section';
+
+        // Function to set the theme
+        function setTheme(theme) {
+            body.setAttribute('data-theme', theme);
+            themeToggle.innerHTML = theme === 'dark' ? '🌙' : '☀️';
+            localStorage.setItem('krishnasmehendi_theme', theme);
+        }
+        
+        // Generalized function to show a section and hide all others
+        function showSection(targetId) {
+            
+            for (let id in sections) {
+                if (sections[id]) {
+                    sections[id].style.display = 'none';
+                }
+            }
+
+            const targetSection = sections[targetId];
+            if (targetSection) {
+                targetSection.style.display = 'block';
+                // Only scroll to the top if moving to a new section type
+                if (currentSectionId !== targetId) {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                }
+                currentSectionId = targetId;
+            } else {
+                currentSectionId = 'home-section';
+            }
+            closeNav(); 
+        }
+
+        // Toggles artwork when clicking the header button (now only used for the Home section button)
+        function toggleArtworkSection() {
+            const isArtworkVisible = sections['artwork-section'].style.display === 'block';
+
+            if (isArtworkVisible) {
+                showSection('home-section');
+            } else {
+                showSection('artwork-section');
+            }
+        }
+        
+        // Sidebar Menu Functions
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+            document.body.style.overflow = "auto";
+        }
+
+        /* --- RESTORED: MODAL/LIGHTBOX FUNCTIONS --- */
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('img01');
+
+        // Function to open the modal
+        function openModal(imageElement) {
+            modal.style.display = 'block';
+            modalImg.src = imageElement.src;
+            // Prevent scrolling when modal is open
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        // Function to close the modal
+        function closeModal(event) {
+            // Check if the click event is present and if it originated from the image itself
+            if (event && event.target === modalImg) {
+                return;
+            }
+            modal.style.display = 'none';
+            // Restore scrolling
+            document.body.style.overflow = 'auto'; 
+        }
+        
+        /* --- END RESTORED MODAL/LIGHTBOX FUNCTIONS --- */
+
+
+        // Check for saved theme preference and set initial state on load
+        window.onload = function() {
+            const savedTheme = localStorage.getItem('krishnasmehendi_theme') || 'light';
+            setTheme(savedTheme);
+            // Ensure only home is visible initially
+            showSection('home-section');
+        };
+
+        // Toggle Theme Functionality
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(newTheme);
+        });
+        
+        // For the logo click to go Home
+        document.querySelector('.logo').addEventListener('click', () => {
+            showSection('home-section');
+        });
+    </script>
+</body>
+</html>
