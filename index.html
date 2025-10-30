@@ -117,12 +117,10 @@
             transition: background-color 0.5s;
         }
         
-        /* FIX: Wrapper for icon and logo to ensure stable alignment and prevents wrapping */
         .header-left { 
             display: flex; 
             align-items: center; 
             gap: 15px; 
-            /* Ensures this group takes minimum required space */
             white-space: nowrap; 
         }
 
@@ -132,7 +130,6 @@
             color: var(--primary-color);
             cursor: pointer;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-            /* Prevents logo text from wrapping */
             white-space: nowrap; 
         }
 
@@ -160,33 +157,44 @@
             transform: translateY(-2px);
         }
 
-        /* Theme Toggle Styling */
+        /* --- Theme Toggle Styling --- */
         .theme-toggle {
-            background: none;
+            background-color: var(--accent-color); 
+            color: var(--light-bg); 
+            border: 2px solid var(--accent-color); 
+            border-radius: 50%; 
+            width: 38px; 
+            height: 38px;
+            display: flex; 
+            justify-content: center;
+            align-items: center;
             cursor: pointer;
-            font-size: 1.5em;
-            
-            /* Border properties for visibility */
-            border: 2px solid var(--primary-color); /* Use primary color for border */
-            border-radius: 50%; /* Make it round */
-            padding: 5px 8px; /* Added padding to give it shape */
-            line-height: 1; /* Center the icon */
-            
-            color: var(--primary-color);
-            transition: transform 0.2s, border-color 0.3s, background-color 0.3s;
+            font-size: 1.2em; 
+            transition: background-color 0.3s, color 0.3s, transform 0.2s, border-color 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
         }
-        
-        /* Hover state for theme toggle */
+
         .theme-toggle:hover {
-            transform: scale(1.1);
-            background-color: rgba(139, 69, 19, 0.1); /* Slight background on hover */
+            background-color: transparent; 
+            color: var(--primary-color); 
+            border-color: var(--primary-color); 
+            transform: scale(1.1); 
         }
 
         [data-theme="dark"] .theme-toggle {
-            border: 2px solid var(--dark-primary); /* Dark mode border */
-            color: var(--dark-primary);
+            background-color: var(--dark-primary); 
+            color: var(--dark-bg);
+            border-color: var(--dark-primary);
         }
-        
+
+        [data-theme="dark"] .theme-toggle:hover {
+            background-color: transparent;
+            color: var(--dark-primary);
+            border-color: var(--dark-primary);
+            transform: scale(1.1);
+        }
+        /* --- END Theme Toggle Styling --- */
+
         /* Menu (Sidebar) */
         .menu-icon {
             font-size: 1.8em; 
@@ -209,6 +217,18 @@
             padding-top: 60px;
             box-shadow: 2px 0 10px rgba(0,0,0,0.5);
         }
+        
+        .sidebar-title {
+            padding: 15px 8px 15px 32px;
+            font-size: 24px; 
+            color: var(--primary-color);
+            font-weight: 700;
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--primary-color);
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
 
         .sidebar a {
             padding: 15px 8px 15px 32px;
@@ -247,7 +267,6 @@
             z-index: 2;
         }
 
-        /* Artist Details Styling - Increased Size and Weight */
         .artist-details {
             text-align: center;
             font-size: 1.5em; 
@@ -258,7 +277,6 @@
             line-height: 1.6;
         }
         
-        /* Services Label Styling */
         .services-label {
             text-align: left; 
             font-size: 1.5em; 
@@ -278,7 +296,7 @@
             text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
         }
 
-        /* Services Section - Decreased Font Size */
+        /* Services Section - Custom Bullet Points */
         .services-list {
             list-style: none; 
             padding-left: 0;
@@ -292,10 +310,9 @@
             max-width: 450px; 
         }
 
-        /* Services List Edits (Bullet points & Shorter line) */
         .services-list li {
-            position: relative; /* Enable pseudo-elements */
-            padding-left: 20px; /* Space for the custom bullet point */
+            position: relative; 
+            padding-left: 20px; 
             text-align: left; 
             margin-bottom: 8px; 
             font-weight: 400;
@@ -304,7 +321,7 @@
         }
 
         .services-list li::before {
-            content: '•'; /* Custom Bullet Point */
+            content: '•'; 
             color: var(--accent-color);
             font-size: 1.2em;
             position: absolute;
@@ -318,7 +335,7 @@
             position: absolute;
             bottom: 0; 
             left: 0; 
-            width: 70%; /* Shorter line */
+            width: 70%; 
             height: 1px;
             border-bottom: 1px dotted var(--primary-color);
         }
@@ -330,7 +347,6 @@
             margin-bottom: 40px;
         }
         
-        /* Artwork back button container */
         .back-btn-container {
             text-align: center;
             margin: 20px 0;
@@ -355,7 +371,7 @@
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
             position: relative; 
             z-index: 2;
-            cursor: pointer; /* Added cursor pointer for modal functionality */
+            cursor: pointer; 
         }
 
         .artwork-item img {
@@ -371,7 +387,7 @@
             opacity: 0.9;
         }
 
-        /* --- New Courses Section Styling --- */
+        /* --- Courses Section Styling --- */
 
         #courses-section {
             display: none;
@@ -417,7 +433,6 @@
             margin-bottom: 20px;
         }
         
-        /* Specific list item styling for included materials/highlights */
         .course-card ul.material-list li:before {
             content: '✅ ';
             margin-left: -20px;
@@ -439,7 +454,22 @@
             font-weight: 700;
         }
 
+        /* WhatsApp Button specific styles */
+        .whatsapp-btn {
+            background-color: #25D366 !important; 
+            color: white !important; 
+            padding: 12px 25px !important;
+            display: inline-flex !important; 
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            border-radius: 25px;
+        }
 
+        .whatsapp-btn:hover {
+            background-color: #128C7E !important;
+        }
+        
         .course-enrollment-info {
             text-align: center;
             padding: 20px;
@@ -471,37 +501,34 @@
         }
         /* --- End Courses Section Styling --- */
 
-
-        /* --- Modal/Lightbox Styling for Artwork Viewer (Restored) --- */
+        /* --- Modal/Lightbox Styling for Artwork Viewer --- */
         .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1000; /* Sit on top of everything */
-            padding-top: 60px; /* Location of the box */
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            padding-top: 60px; 
             left: 0;
             top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(0,0,0,0.85); /* Black w/ opacity background */
-            backdrop-filter: blur(10px); /* Add blur effect to background */
-            -webkit-backdrop-filter: blur(10px); /* Safari support */
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.85); 
+            backdrop-filter: blur(10px); 
+            -webkit-backdrop-filter: blur(10px); 
             transition: opacity 0.3s ease;
         }
 
-        /* Modal Content (Image) */
         .modal-content {
             margin: auto;
             display: block;
             width: 80%;
             max-width: 700px;
-            max-height: 80vh; /* Max height to fit within viewport */
-            object-fit: contain; /* Ensure the image fits */
+            max-height: 80vh; 
+            object-fit: contain; 
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
         }
 
-        /* Close Button */
         .close {
             position: absolute;
             top: 15px;
@@ -531,7 +558,6 @@
             z-index: 5; 
         }
         
-        /* Footer text styling */
         .footer-text {
             font-size: 1.1em;
             font-weight: 600;
@@ -545,7 +571,6 @@
             gap: 20px; 
         }
 
-        /* Button styles for social links */
         .social-links a {
             color: var(--light-bg);
             font-size: 1.1em; 
@@ -575,7 +600,6 @@
         /* --- MOBILE RESPONSIVENESS (Media Queries) --- */
         @media (max-width: 600px) {
             
-            /* 1. Header/Logo Fix: Reduce logo size and padding */
             .logo {
                 font-size: 2.0em; 
             }
@@ -585,13 +609,13 @@
             }
 
             .theme-toggle {
-                font-size: 1.3em; 
-                padding: 4px 6px;
+                width: 34px;
+                height: 34px;
+                font-size: 1.0em;
             }
 
-            /* General Text Scaling */
             #home-section, #artwork-section, #courses-section {
-                padding: 20px 15px; /* Adjust padding for better fit */
+                padding: 20px 15px; 
                 margin: 10px auto;
             }
             
@@ -603,7 +627,6 @@
                 font-size: 2.8em;
             }
             
-            /* 2. Footer Social Links Fix: Allow wrapping and reduce button size */
             .social-links {
                 flex-wrap: wrap; 
                 justify-content: center;
@@ -613,14 +636,13 @@
                 font-size: 1.0em; 
                 padding: 6px 10px; 
                 gap: 5px; 
-                margin: 5px; /* Spacing between wrapped buttons */
+                margin: 5px; 
             }
             
             .social-links a i {
                 font-size: 1.2em; 
             }
             
-            /* Modal fix for mobile */
             .modal-content {
                 width: 95%; 
             }
@@ -631,6 +653,7 @@
     
     <div id="mySidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="sidebar-title">Menu</div> 
         <a href="javascript:void(0)" onclick="showSection('home-section')">Home</a>
         <a href="javascript:void(0)" onclick="showSection('courses-section')">Courses</a> 
     </div>
@@ -721,6 +744,12 @@
                 </ul>
                 
                 <p class="course-confidence">💫 After completion, you’ll be confident to take Basic Sider & Basic Bridal Mehndi Orders!</p>
+                
+                <div style="text-align: center;">
+                    <a href="https://wa.me/919820823232?text=I%20am%20interested%20in%20enrolling%20in%20your%20Basic%20Mehndi%20Course." target="_blank" class="primary-btn whatsapp-btn">
+                        <i class="fab fa-whatsapp"></i> Book Seat Now on WhatsApp
+                    </a>
+                </div>
             </div>
             
             <div class="course-card advance-course">
@@ -756,6 +785,12 @@
                 <ul class="material-list">
                     <li>Includes Marketing Tips & Client Handling Guidance!</li>
                 </ul>
+                
+                <div style="text-align: center;">
+                    <a href="https://wa.me/919820823232?text=I%20am%20interested%20in%20enrolling%20in%20your%20Advance%20Mehndi%20Course." target="_blank" class="primary-btn whatsapp-btn">
+                        <i class="fab fa-whatsapp"></i> Book Seat Now on WhatsApp
+                    </a>
+                </div>
             </div>
             
             <div class="course-enrollment-info">
@@ -870,7 +905,7 @@
             closeNav(); 
         }
 
-        // Toggles artwork when clicking the header button (now only used for the Home section button)
+        // Toggles artwork when clicking the header button
         function toggleArtworkSection() {
             const isArtworkVisible = sections['artwork-section'].style.display === 'block';
 
@@ -892,7 +927,7 @@
             document.body.style.overflow = "auto";
         }
 
-        /* --- RESTORED: MODAL/LIGHTBOX FUNCTIONS --- */
+        /* --- MODAL/LIGHTBOX FUNCTIONS --- */
         const modal = document.getElementById('imageModal');
         const modalImg = document.getElementById('img01');
 
@@ -900,29 +935,22 @@
         function openModal(imageElement) {
             modal.style.display = 'block';
             modalImg.src = imageElement.src;
-            // Prevent scrolling when modal is open
             document.body.style.overflow = 'hidden'; 
         }
 
         // Function to close the modal
         function closeModal(event) {
-            // Check if the click event is present and if it originated from the image itself
             if (event && event.target === modalImg) {
                 return;
             }
             modal.style.display = 'none';
-            // Restore scrolling
             document.body.style.overflow = 'auto'; 
         }
         
-        /* --- END RESTORED MODAL/LIGHTBOX FUNCTIONS --- */
-
-
         // Check for saved theme preference and set initial state on load
         window.onload = function() {
             const savedTheme = localStorage.getItem('krishnasmehendi_theme') || 'light';
             setTheme(savedTheme);
-            // Ensure only home is visible initially
             showSection('home-section');
         };
 
