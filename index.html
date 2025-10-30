@@ -12,7 +12,7 @@
             --light-bg: #f9f0e6;
             --light-text: #333333;
             --light-primary: #8B4513;
-            --light-accent: #f4a261; 
+            --light-accent: #f4a261;
             --dark-bg: #1e1e1e;
             --dark-text: #f0f0f0;
             --dark-primary: #d2b48c;
@@ -157,15 +157,14 @@
             transform: translateY(-2px);
         }
 
-        /* --- Theme Toggle Styling FIX --- */
+        /* --- Theme Toggle Styling --- */
         .theme-toggle {
-            /* Set transparent background for the button itself */
-            background-color: transparent; 
-            color: var(--primary-color); /* Icon color in light mode */
-            border: 2px solid var(--primary-color); /* Border color in light mode */
+            background-color: var(--accent-color); 
+            color: var(--light-bg); 
+            border: 2px solid var(--accent-color); 
             border-radius: 50%; 
-            width: 38px; 
-            height: 38px;
+            width: 40px;  /* Increased size */
+            height: 40px; /* Increased size */
             display: flex; 
             justify-content: center;
             align-items: center;
@@ -173,28 +172,29 @@
             font-size: 1.2em; 
             transition: background-color 0.3s, color 0.3s, transform 0.2s, border-color 0.3s;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+            line-height: 1; /* Ensures emoji is centered */
         }
 
         .theme-toggle:hover {
             background-color: transparent; 
-            color: var(--accent-color); 
-            border-color: var(--accent-color); 
+            color: var(--primary-color); 
+            border-color: var(--primary-color); 
             transform: scale(1.1); 
         }
 
         [data-theme="dark"] .theme-toggle {
-            background-color: transparent; 
-            color: var(--dark-text); /* White icon in dark mode */
-            border-color: var(--dark-primary); /* Light border in dark mode */
+            background-color: var(--dark-primary); 
+            color: var(--dark-bg);
+            border-color: var(--dark-primary);
         }
 
         [data-theme="dark"] .theme-toggle:hover {
             background-color: transparent;
-            color: var(--dark-accent);
-            border-color: var(--dark-accent);
+            color: var(--dark-primary);
+            border-color: var(--dark-primary);
             transform: scale(1.1);
         }
-        /* --- END Theme Toggle Styling FIX --- */
+        /* --- END Theme Toggle Styling --- */
 
         /* Menu (Sidebar) */
         .menu-icon {
@@ -876,9 +876,10 @@
         };
         let currentSectionId = 'home-section';
 
-        // Function to set the theme
+        // Function to set the theme and update the button emoji
         function setTheme(theme) {
             body.setAttribute('data-theme', theme);
+            // This is the core line that ensures the emoji is correct
             themeToggle.innerHTML = theme === 'dark' ? '🌙' : '☀️';
             localStorage.setItem('krishnasmehendi_theme', theme);
         }
@@ -941,6 +942,7 @@
 
         // Function to close the modal
         function closeModal(event) {
+            // Prevents closing when clicking on the image inside the modal
             if (event && event.target === modalImg) {
                 return;
             }
