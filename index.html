@@ -12,7 +12,7 @@
             --light-bg: #f9f0e6;
             --light-text: #333333;
             --light-primary: #8B4513;
-            --light-accent: #f4a261;
+            --light-accent: #f4a261; 
             --dark-bg: #1e1e1e;
             --dark-text: #f0f0f0;
             --dark-primary: #d2b48c;
@@ -157,14 +157,14 @@
             transform: translateY(-2px);
         }
 
-        /* --- Theme Toggle Styling --- */
+        /* --- Theme Toggle Styling (NEW COLORS) --- */
         .theme-toggle {
-            background-color: var(--accent-color); 
-            color: var(--light-bg); 
-            border: 2px solid var(--accent-color); 
+            background-color: var(--light-bg); /* Light background for the button */
+            color: var(--primary-color); /* Primary color for the icon */
+            border: 2px solid var(--primary-color); 
             border-radius: 50%; 
-            width: 40px;  /* Increased size */
-            height: 40px; /* Increased size */
+            width: 38px; 
+            height: 38px;
             display: flex; 
             justify-content: center;
             align-items: center;
@@ -172,25 +172,24 @@
             font-size: 1.2em; 
             transition: background-color 0.3s, color 0.3s, transform 0.2s, border-color 0.3s;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
-            line-height: 1; /* Ensures emoji is centered */
         }
 
         .theme-toggle:hover {
-            background-color: transparent; 
-            color: var(--primary-color); 
-            border-color: var(--primary-color); 
+            background-color: var(--accent-color); 
+            color: var(--light-bg); 
+            border-color: var(--accent-color); 
             transform: scale(1.1); 
         }
 
         [data-theme="dark"] .theme-toggle {
-            background-color: var(--dark-primary); 
-            color: var(--dark-bg);
+            background-color: var(--dark-bg); /* Dark background for the button */
+            color: var(--dark-primary); /* Primary color for the icon */
             border-color: var(--dark-primary);
         }
 
         [data-theme="dark"] .theme-toggle:hover {
-            background-color: transparent;
-            color: var(--dark-primary);
+            background-color: var(--dark-primary);
+            color: var(--dark-bg);
             border-color: var(--dark-primary);
             transform: scale(1.1);
         }
@@ -659,10 +658,10 @@
         <a href="javascript:void(0)" onclick="showSection('courses-section')">Courses</a> 
     </div>
 
-    <header>
+    <header id="main-header">
         <div class="header-left">
-            <span class="menu-icon" onclick="openNav()">&#9776;</span>
-            <div class="logo" onclick="showSection('home-section')">Krishna's Mehndi</div>
+            <span class="menu-icon" id="menu-icon" onclick="openNav(event)">&#9776;</span>
+            <div class="logo" id="logo">Krishna's Mehndi</div>
         </div>
         <div class="nav-buttons">
             <button class="theme-toggle" id="theme-toggle">
@@ -854,7 +853,7 @@
     <footer>
         <p class="footer-text">Connect With Us:</p>
         <div class="social-links">
-            <a href="https://wa.me/919820823232" target="_blank" title="WhatsApp: 9820823232">
+            <a href="https://wa.me/919324592639" target="_blank" title="WhatsApp: 9324592639">
                 <i class="fab fa-whatsapp"></i> WhatsApp
             </a>
             <a href="https://www.instagram.com/krishnasmehendi?igsh=dTluenBzYTJzMGhq" target="_blank" title="Instagram: @krishnasmehendi">
@@ -868,6 +867,9 @@
 
     <script>
         const themeToggle = document.getElementById('theme-toggle');
+        const header = document.getElementById('main-header'); // Get the entire header
+        const menuIcon = document.getElementById('menu-icon'); // Get menu icon
+        const logo = document.getElementById('logo'); // Get logo
         const body = document.body;
         const sections = {
             'home-section': document.getElementById('home-section'),
@@ -876,10 +878,9 @@
         };
         let currentSectionId = 'home-section';
 
-        // Function to set the theme and update the button emoji
+        // Function to set the theme
         function setTheme(theme) {
             body.setAttribute('data-theme', theme);
-            // This is the core line that ensures the emoji is correct
             themeToggle.innerHTML = theme === 'dark' ? '🌙' : '☀️';
             localStorage.setItem('krishnasmehendi_theme', theme);
         }
@@ -919,7 +920,8 @@
         }
         
         // Sidebar Menu Functions
-        function openNav() {
+        function openNav(e) {
+            if (e) e.stopPropagation(); // Prevents clicks on the menu icon from bubbling up
             document.getElementById("mySidebar").style.width = "250px";
             document.body.style.overflow = "hidden";
         }
@@ -942,7 +944,6 @@
 
         // Function to close the modal
         function closeModal(event) {
-            // Prevents closing when clicking on the image inside the modal
             if (event && event.target === modalImg) {
                 return;
             }
@@ -958,15 +959,32 @@
         };
 
         // Toggle Theme Functionality
-        themeToggle.addEventListener('click', () => {
+        themeToggle.addEventListener('click', (e) => {
+            e.stopPropagation(); // Stop propagation explicitly on the button itself
             const currentTheme = body.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
             setTheme(newTheme);
         });
         
         // For the logo click to go Home
-        document.querySelector('.logo').addEventListener('click', () => {
+        logo.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevents clicks on the logo from bubbling up
             showSection('home-section');
+        });
+        
+        // LAST RESORT FIX: Add a capture phase listener to the header
+        // This ensures the header click listener fires BEFORE any other element's click event.
+        // It checks if the click target is the theme button or its child (the icon).
+        header.addEventListener('click', (e) => {
+            // Check if the click target is the theme button, the menu icon, or the logo
+            if (e.target === themeToggle || e.target.closest('#theme-toggle') || e.target === menuIcon || e.target === logo || e.target.closest('#logo')) {
+                // If it's one of the interactive elements, do nothing, allowing its specific listener to handle it.
+                return;
+            }
+            
+            // If the click falls on the empty space of the header (which may be activating the theme toggle), 
+            // we stop the propagation of this ghost click.
+            e.stopPropagation();
         });
     </script>
 </body>
